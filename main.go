@@ -25,11 +25,17 @@ func main() {
 		fmt.Println("CONNECT DB FAILED HUHU")
 	}
 
+	// NOTE COMPONENT
 	notesServices := &services.NoteServices{}
 	notesServices.InitService(db)
-
 	notesController := &controllers.NotesController{}
-	notesController.InitNotesControllerRoutes(router, *notesServices)
+	notesController.InitNotesController(*notesServices)
+	notesController.InitRoutes(router)
+
+	// AUTH COMPONENT
+	authController := &controllers.AuthController{}
+	authController.InitAuthController()
+	authController.InitAuthRoutes(router)
 
 	router.Run(":3000")
 }

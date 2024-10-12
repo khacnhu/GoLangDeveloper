@@ -11,7 +11,12 @@ type NotesController struct {
 	noteService services.NoteServices
 }
 
-func (n *NotesController) InitNotesControllerRoutes(router *gin.Engine, noteService services.NoteServices) {
+func (n *NotesController) InitNotesController(noteService services.NoteServices) *NotesController {
+	n.noteService = noteService
+	return n
+}
+
+func (n *NotesController) InitRoutes(router *gin.Engine) {
 	notes := router.Group("/notes")
 
 	notes.GET("/", n.GetNotes())
@@ -19,7 +24,6 @@ func (n *NotesController) InitNotesControllerRoutes(router *gin.Engine, noteServ
 	notes.GET("/status", n.GetNotesByStatus())
 	notes.PUT("/", n.UpdateNotes())
 	notes.DELETE("/:id", n.DeleteNotes())
-	n.noteService = noteService
 }
 
 func (n *NotesController) GetNotes() gin.HandlerFunc {
