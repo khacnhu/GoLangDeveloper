@@ -38,7 +38,7 @@ func (a *AuthService) Login(email *string, password *string) (*internal.User, er
 
 }
 
-func (a *AuthService) Register(email *string, password *string) (*internal.User, error) {
+func (a *AuthService) Register(id *int, email *string, password *string) (*internal.User, error) {
 	if email == nil {
 		return nil, errors.New("email can not be null")
 	}
@@ -49,6 +49,7 @@ func (a *AuthService) Register(email *string, password *string) (*internal.User,
 
 	var user internal.User
 
+	user.Id = *id
 	user.Email = *email
 	user.Password = *password
 
