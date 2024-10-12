@@ -27,18 +27,19 @@ func (a *AuthService) Login(email *string, password *string) (*internal.User, er
 
 	var user internal.User
 
-	user.Email = *email
-	user.Password = *password
-
 	if err := a.db.Where("email=?", email).Where("password =?", password).Find(&user).Error; err != nil {
 		return nil, err
+	}
+
+	if user.Email == "" {
+		return nil, errors.New("no user found with email")
 	}
 
 	return &user, nil
 
 }
 
-func (a *AuthService) Register(id *int, email *string, password *string) (*internal.User, error) {
+func (a *AuthService) Register(email *string, password *string) (*internal.User, error) {
 	if email == nil {
 		return nil, errors.New("email can not be null")
 	}
@@ -49,7 +50,6 @@ func (a *AuthService) Register(id *int, email *string, password *string) (*inter
 
 	var user internal.User
 
-	user.Id = *id
 	user.Email = *email
 	user.Password = *password
 
