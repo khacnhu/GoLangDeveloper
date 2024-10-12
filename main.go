@@ -9,13 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type BOOK struct {
-	Id     int    `json:"id" gorm:"PrimaryKey"`
-	Title  string `json:"title"`
-	Author string `json:"author"`
-	Desc   string `json:"desc"`
-}
-
 func main() {
 	router := gin.Default()
 
@@ -33,8 +26,10 @@ func main() {
 	notesController.InitRoutes(router)
 
 	// AUTH COMPONENT
+	authServices := &services.AuthService{}
+	authServices.InitService(db)
 	authController := &controllers.AuthController{}
-	authController.InitAuthController()
+	authController.InitAuthController(*authServices)
 	authController.InitAuthRoutes(router)
 
 	router.Run(":3000")

@@ -1,13 +1,17 @@
 package controllers
 
 import (
+	"go-tutorial/services"
+
 	"github.com/gin-gonic/gin"
 )
 
 type AuthController struct {
+	authService services.AuthService
 }
 
-func (a *AuthController) InitAuthController() *AuthController {
+func (a *AuthController) InitAuthController(authService services.AuthService) *AuthController {
+	a.authService = authService
 	return a
 }
 
