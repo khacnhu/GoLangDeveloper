@@ -21,18 +21,35 @@ func (n *NoteServices) InitService(database *gorm.DB) {
 	// n.db.AutoMigrate(&internal.Notes{})
 }
 
-func (n *NoteServices) GetNotesServices() []Note {
-	data := []Note{
-		{Id: 1, Name: "Note 1"},
-		{Id: 2, Name: "Note 2"},
+// Get All List Notes
+func (n *NoteServices) GetNotesServices() ([]*internal.Notes, error) {
+
+	var notes []*internal.Notes
+
+	if err := n.db.Find(&notes).Error; err != nil {
+		return nil, err
 	}
 
-	return data
+	return notes, nil
 
 }
 
-func (n *NoteServices) CreateNotesService(title string, status bool) (*internal.Notes, error) {
+func (n *NoteServices) GetNotesByStatusServices(status bool) ([]*internal.Notes, error) {
+
+	var notes []*internal.Notes
+
+	if err := n.db.Where("status = ?", status).Find(&notes).Error; err != nil {
+		return nil, err
+	}
+
+	return notes, nil
+
+}
+
+// Create Notes
+func (n *NoteServices) CreateNotesService(id int, title string, status bool) (*internal.Notes, error) {
 	note := &internal.Notes{
+		Id:     id,
 		Title:  title,
 		Status: status,
 	}
@@ -41,12 +58,6 @@ func (n *NoteServices) CreateNotesService(title string, status bool) (*internal.
 		fmt.Println("create error ", err)
 		return nil, err
 	}
-
-	// result := n.db.Create(&note)
-
-	// if result.Error != nil {
-	// 	fmt.Println("Record created failed: ", result.Error)
-	// }
 
 	fmt.Println("Record created successfully:", note)
 
