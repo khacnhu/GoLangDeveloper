@@ -1,0 +1,13 @@
+version: '3.2' # You can remove this line if you're using a newer Docker Compose version that doesn't require it.
+services:
+  db:
+    container_name: my_db
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"  # Maps the default PostgreSQL port to your local machine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
