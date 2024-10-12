@@ -34,6 +34,7 @@ func (n *NoteServices) GetNotesServices() ([]*internal.Notes, error) {
 
 }
 
+// GET NOTES BY STATUS
 func (n *NoteServices) GetNotesByStatusServices(status bool) ([]*internal.Notes, error) {
 
 	var notes []*internal.Notes
@@ -62,4 +63,45 @@ func (n *NoteServices) CreateNotesService(id int, title string, status bool) (*i
 	fmt.Println("Record created successfully:", note)
 
 	return note, nil
+}
+
+// Update Notes
+func (n *NoteServices) UpdateNotesService(title string, status bool, id int) (*internal.Notes, error) {
+
+	var note *internal.Notes
+
+	if err := n.db.Where("id = ?", id).First(&note).Error; err != nil {
+		return nil, err
+	}
+
+	note.Status = status
+	note.Title = title
+
+	if err := n.db.Save(&note).Error; err != nil {
+		fmt.Println("create error ", err)
+		return nil, err
+	}
+
+	fmt.Println("Record created successfully:", note)
+
+	return note, nil
+}
+
+// Update Notes
+func (n *NoteServices) DeleteNotesService(id int) error {
+
+	var note *internal.Notes
+
+	if err := n.db.Where("id = ?", id).First(&note).Error; err != nil {
+		return err
+	}
+
+	if err := n.db.Where("id = ?", id).Delete(&note).Error; err != nil {
+		fmt.Println("create error ", err)
+		return err
+	}
+
+	fmt.Println("Record created successfully:", note)
+
+	return nil
 }
