@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"go-tutorial/internals/utils"
 	"go-tutorial/services"
 
 	"github.com/gin-gonic/gin"
@@ -90,8 +91,18 @@ func (a *AuthController) AuthLogin() gin.HandlerFunc {
 			return
 		}
 
+		var token string
+
+		token, err = utils.GenerateToken(user.Email, user.ID)
+		if err != nil {
+			ctx.JSON(400, gin.H{
+				"message": err.Error(),
+			})
+		}
+
 		ctx.JSON(200, gin.H{
-			"user": user,
+			"user":  user,
+			"token": token,
 		})
 
 	}
