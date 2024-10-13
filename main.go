@@ -5,14 +5,29 @@ import (
 	"go-tutorial/controllers"
 	internal "go-tutorial/internals/databases"
 	"go-tutorial/services"
+	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	router := gin.Default()
 
 	db := internal.InitDB()
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	// Reading environment variables
+	port := os.Getenv("PORT")
+	fmt.Println("check port = ", port)
+	if port == "" {
+		port = "8080" // default value
+	}
 
 	if db == nil {
 		fmt.Println("CONNECT DB FAILED HUHU")
@@ -32,5 +47,5 @@ func main() {
 	authController.InitAuthController(*authServices)
 	authController.InitAuthRoutes(router)
 
-	router.Run(":3000")
+	router.Run(fmt.Sprintf(":%s", port))
 }
