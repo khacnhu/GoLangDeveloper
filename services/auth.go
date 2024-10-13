@@ -39,6 +39,22 @@ func (a *AuthService) Login(email *string, password *string) (*internal.User, er
 
 }
 
+func (a *AuthService) CheckUserExistOrNot(email *string) bool {
+	var user internal.User
+
+	if err := a.db.Where("email = ?", email).Find(&user).Error; err != nil {
+		return false
+
+	}
+
+	if user.Email != "" {
+		return true
+	}
+
+	return false
+
+}
+
 func (a *AuthService) Register(email *string, password *string) (*internal.User, error) {
 	if email == nil {
 		return nil, errors.New("email can not be null")
@@ -46,6 +62,10 @@ func (a *AuthService) Register(email *string, password *string) (*internal.User,
 
 	if password == nil {
 		return nil, errors.New("password can't be null")
+	}
+
+	if a.CheckUserExistOrNot(email) {
+		return nil, errors.New("email have already existed by others")
 	}
 
 	var user internal.User
