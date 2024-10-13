@@ -28,12 +28,16 @@ func (a *AuthService) Login(email *string, password *string) (*internal.User, er
 
 	var user internal.User
 
-	if err := a.db.Where("email=?", email).Where("password =?", password).Find(&user).Error; err != nil {
+	if err := a.db.Where("email=?", email).Find(&user).Error; err != nil {
 		return nil, err
 	}
 
 	if user.Email == "" {
 		return nil, errors.New("no user found with email")
+	}
+
+	if utils.CheckPasswordHash(*password, user.Password) == false {
+		return nil, errors.New("password is not correct")
 	}
 
 	return &user, nil
