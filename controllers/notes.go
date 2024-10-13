@@ -18,10 +18,9 @@ func (n *NotesController) InitNotesController(noteService services.NoteServices)
 }
 
 func (n *NotesController) InitRoutes(router *gin.Engine) {
-	notes := router.Group("/notes") 
-	notes.Use(middlewares.CheckMiddleware)
+	notes := router.Group("/notes")
 
-	notes.GET("/", n.GetNotes())
+	notes.GET("/", middlewares.CheckMiddleware, n.GetNotes()) // add middleware for get all
 	notes.POST("/createNotes", n.CreateNotes())
 	notes.GET("/status", n.GetNotesByStatus())
 	notes.PUT("/", n.UpdateNotes())

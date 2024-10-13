@@ -60,7 +60,7 @@ func (a *AuthService) CheckUserExistOrNot(email *string) bool {
 
 }
 
-func (a *AuthService) Register(email *string, password *string) (*internal.User, error) {
+func (a *AuthService) Register(email *string, password *string, role *string) (*internal.User, error) {
 	if email == nil {
 		return nil, errors.New("email can not be null")
 	}
@@ -83,6 +83,12 @@ func (a *AuthService) Register(email *string, password *string) (*internal.User,
 
 	user.Email = *email
 	user.Password = hashPassword
+
+	if *role == "" {
+		user.Role = "User"
+	} else {
+		user.Role = *role
+	}
 
 	if err := a.db.Create(&user).Error; err != nil {
 		return nil, err

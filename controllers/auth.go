@@ -37,6 +37,7 @@ func (a *AuthController) AuthRegister() gin.HandlerFunc {
 	type RegisterBody struct {
 		Email    string `json:"email" gorm:"unique;not null" binding:"required"`
 		Password string `json:"password"`
+		Role     string `json:"role"`
 	}
 
 	return func(ctx *gin.Context) {
@@ -49,7 +50,7 @@ func (a *AuthController) AuthRegister() gin.HandlerFunc {
 			return
 		}
 
-		user, err := a.authService.Register(&registerBody.Email, &registerBody.Password)
+		user, err := a.authService.Register(&registerBody.Email, &registerBody.Password, &registerBody.Role)
 
 		if err != nil {
 			ctx.JSON(400, gin.H{
@@ -93,7 +94,7 @@ func (a *AuthController) AuthLogin() gin.HandlerFunc {
 
 		var token string
 
-		token, err = utils.GenerateToken(user.Email, user.ID)
+		token, err = utils.GenerateToken(user.Email, user.ID, user.Role)
 		if err != nil {
 			ctx.JSON(400, gin.H{
 				"message": err.Error(),

@@ -39,16 +39,16 @@ func CheckMiddleware(c *gin.Context) {
 		return
 	}
 
-	email, emailOk := data["email"].(string)
+	role, roleOk := data["role"].(string)
 
-	if emailOk {
-		fmt.Printf("Email: %s\n", email)
+	if roleOk {
+		fmt.Printf("Email: %s\n", role)
 	} else {
 		fmt.Println("Email not found or not a string")
 	}
 
 	// write again to add field role to config author
-	if email != "hongnhu@gmail.com" {
+	if role != "user" {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": "Do you have role to accces in url",
 		})

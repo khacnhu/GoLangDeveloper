@@ -9,11 +9,12 @@ import (
 
 const secret = "supersecret"
 
-func GenerateToken(email string, id int) (string, error) {
+func GenerateToken(email string, id int, role string) (string, error) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"email": email,
 		"id":    id,
+		"role":  role,
 		"nbf":   time.Date(2024, 10, 12, 12, 0, 0, 0, time.UTC).Unix(),
 	})
 
