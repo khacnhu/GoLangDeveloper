@@ -39,7 +39,15 @@ func parseToken(jwtToken string) (*jwt.Token, error) {
 
 }
 
-func TokenCheck(jwtToken string) (interface{}, error) {
+type MyCustomClaims struct {
+	Email string          `json:"email"`
+	ID    int             `json:"id"`
+	NBF   jwt.NumericDate `json:"nbf"`
+}
+
+// map[email:hongnhu@gmail.com id:5 nbf:1.7287344e+09]
+
+func TokenCheck(jwtToken string) (jwt.MapClaims, error) {
 
 	token, err := parseToken(jwtToken)
 
@@ -48,7 +56,6 @@ func TokenCheck(jwtToken string) (interface{}, error) {
 	}
 
 	data, Ok := token.Claims.(jwt.MapClaims)
-	// fmt.Println("email ", data.email)
 
 	if !Ok {
 		return nil, errors.New("unable to map claims")

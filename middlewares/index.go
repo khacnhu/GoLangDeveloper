@@ -30,12 +30,27 @@ func CheckMiddleware(c *gin.Context) {
 	}
 
 	data, err := utils.TokenCheck((token[1]))
-
 	fmt.Println("get email in data ", data)
 
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": "Claims not matched !!!",
+		})
+		return
+	}
+
+	email, emailOk := data["email"].(string)
+
+	if emailOk {
+		fmt.Printf("Email: %s\n", email)
+	} else {
+		fmt.Println("Email not found or not a string")
+	}
+
+	// write again to add field role to config author
+	if email != "hongnhu@gmail.com" {
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+			"error": "Do you have role to accces in url",
 		})
 		return
 	}
