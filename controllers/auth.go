@@ -17,6 +17,7 @@ func (a *AuthController) InitAuthController(authService services.AuthService) *A
 
 func (a *AuthController) InitAuthRoutes(router *gin.Engine) {
 	authRouter := router.Group("/auth")
+
 	authRouter.GET("/", a.GetAuth())
 	authRouter.POST("/login", a.AuthLogin())
 	authRouter.POST("/register", a.AuthRegister())

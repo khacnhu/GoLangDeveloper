@@ -3,6 +3,7 @@ package services
 import (
 	"errors"
 	internal "go-tutorial/internals/models"
+	"go-tutorial/internals/utils"
 
 	"gorm.io/gorm"
 )
@@ -68,10 +69,16 @@ func (a *AuthService) Register(email *string, password *string) (*internal.User,
 		return nil, errors.New("email have already existed by others")
 	}
 
+	hashPassword, err := utils.HashPassword(*password)
+
+	if err != nil {
+		return nil, err
+	}
+
 	var user internal.User
 
 	user.Email = *email
-	user.Password = *password
+	user.Password = hashPassword
 
 	if err := a.db.Create(&user).Error; err != nil {
 		return nil, err
