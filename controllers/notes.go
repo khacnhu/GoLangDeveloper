@@ -31,6 +31,7 @@ func (n *NotesController) GetNotes() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 
 		notes, err := n.noteService.GetNotesServices()
+		ctx.Set("cache_data_notes", notes)
 
 		if err != nil {
 			ctx.JSON(400, gin.H{
@@ -69,6 +70,7 @@ func (n *NotesController) GetNotesByStatus() gin.HandlerFunc {
 				})
 				return
 			}
+			ctx.Set("cache_data_notes_status", notes)
 
 			ctx.JSON(200, gin.H{
 				"LIST NOTES": notes,
