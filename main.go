@@ -5,11 +5,9 @@ import (
 	"go-tutorial/controllers"
 	internal "go-tutorial/internals/databases"
 	"go-tutorial/internals/utils"
-	"go-tutorial/middlewares"
 	"go-tutorial/services"
 	"log"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -20,8 +18,8 @@ func main() {
 	router.Use(utils.Logger())
 
 	db := internal.InitDB()
-	rdb := middlewares.InitRedis()
-	router.Use(middlewares.CacheMiddleware(rdb, 10*time.Minute))
+	// rdb := middlewares.InitRedis()
+	// router.Use(middlewares.CacheMiddleware(rdb, 10*time.Minute))
 
 	if db == nil {
 		fmt.Println("CONNECT DB FAILED HUHU")
@@ -52,6 +50,11 @@ func main() {
 	authController := &controllers.AuthController{}
 	authController.InitAuthController(*authServices)
 	authController.InitAuthRoutes(router)
+
+	// EXPORT COMPONENT
+	exportController := &controllers.ExportController{}
+	exportController.InitExportController()
+	exportController.InitExportRoutes(router)
 
 	router.Run(fmt.Sprintf(":%s", port))
 }
