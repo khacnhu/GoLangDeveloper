@@ -1,54 +1,43 @@
 package controllers
 
 import (
-	"net/http"
+	"go-tutorial/services"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xuri/excelize/v2"
 )
 
 type ExportController struct {
+	exportService services.ExportService
 }
 
-func (a *ExportController) InitExportController() *ExportController {
-	return a
+func (e *ExportController) InitExportController(exportService services.ExportService) *ExportController {
+	e.exportService = exportService
+	return e
 }
 
-func (a *ExportController) InitExportRoutes(router *gin.Engine) {
-	authRouter := router.Group("/")
+func (e *ExportController) InitExportRoutes(router *gin.Engine) {
+	exportRouter := router.Group("/")
 
-	authRouter.GET("/export-excel", ExportExcel())
-	authRouter.GET("/csv")
-	authRouter.GET("/pdf")
+	exportRouter.GET("/export-excel", e.ExportExcel()) // you should add middleware for role ADMIN **
+	exportRouter.GET("/csv")
+	exportRouter.GET("/pdf")
 }
 
-func ExportExcel() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		// Create a new Excel file
-		f := excelize.NewFile()
+func (e *ExportController) ExportExcel() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		exportData := e.exportService.ExportExcelService(ctx)
 
-		// Create a sheet and write data
-		sheetName := "Sheet"
-		f.SetSheetName(f.GetSheetName(1), sheetName)
-		f.SetCellValue(sheetName, "A1", "Name")
-		f.SetCellValue(sheetName, "B1", "Age")
-		f.SetCellValue(sheetName, "A2", "Alice")
-		f.SetCellValue(sheetName, "B2", 30)
-		f.SetCellValue(sheetName, "A3", "Bob")
-		f.SetCellValue(sheetName, "B3", 25)
-
-		// Create a buffer to store the Excel file
-		buf, err := f.WriteToBuffer()
-		if err != nil {
-			c.String(http.StatusInternalServerError, "Error creating Excel file")
+		if exportData == "failed" {
+			ctx.JSON(400, gin.H{
+				"error": "export excel failed sorry",
+			})
 			return
+
 		}
 
-		// Serve the file as a downloadable response
-		c.Header("Content-Disposition", "attachment; filename=users_file.xlsx")
-		c.Header("Content-Type", "application/octet-stream")
-		c.Header("Content-Length", string(len(buf.Bytes())))
+		ctx.JSON(200, gin.H{
+			"message": "export file excel for admin successfully",
+		})
 
-		c.Data(http.StatusOK, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", buf.Bytes())
 	}
 }

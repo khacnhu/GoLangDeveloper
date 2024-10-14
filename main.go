@@ -52,8 +52,10 @@ func main() {
 	authController.InitAuthRoutes(router)
 
 	// EXPORT COMPONENT
+	exportServices := &services.ExportService{}
+	exportServices.InitService(db)
 	exportController := &controllers.ExportController{}
-	exportController.InitExportController()
+	exportController.InitExportController(*exportServices)
 	exportController.InitExportRoutes(router)
 
 	router.Run(fmt.Sprintf(":%s", port))
