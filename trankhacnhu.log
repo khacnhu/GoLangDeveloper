@@ -1,0 +1,4 @@
+2024/10/14 14:23:08 | 200 |      3.2894ms |             ::1 | GET     "/notes/status"
+2024/10/14 14:23:24 | 400 |      10.097ms |             ::1 | POST    "/notes/createNotes"
+2024/10/14 14:23:31 | 200 |      3.7733ms |             ::1 | POST    "/notes/createNotes"
+2024/10/14 14:23:32 | 400 |      3.0349ms |             ::1 | POST    "/notes/createNotes"

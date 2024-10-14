@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-tutorial/controllers"
 	internal "go-tutorial/internals/databases"
+	"go-tutorial/internals/utils"
 	"go-tutorial/services"
 	"log"
 	"os"
@@ -14,8 +15,13 @@ import (
 
 func main() {
 	router := gin.Default()
+	router.Use(utils.Logger())
 
 	db := internal.InitDB()
+
+	if db == nil {
+		fmt.Println("CONNECT DB FAILED HUHU")
+	}
 
 	err := godotenv.Load()
 	if err != nil {
@@ -27,10 +33,6 @@ func main() {
 	fmt.Println("check port = ", port)
 	if port == "" {
 		port = "8080" // default value
-	}
-
-	if db == nil {
-		fmt.Println("CONNECT DB FAILED HUHU")
 	}
 
 	// NOTE COMPONENT
