@@ -23,6 +23,7 @@ func main() {
 
 	if db == nil {
 		fmt.Println("CONNECT DB FAILED HUHU")
+		panic("db server is error so I will stop everything")
 	}
 
 	err := godotenv.Load()

@@ -87,7 +87,7 @@ func (n *NoteServices) UpdateNotesService(title string, status bool, id int) (*i
 	return note, nil
 }
 
-// Update Notes
+// Delete Notes
 func (n *NoteServices) DeleteNotesService(id int) error {
 
 	var note *internal.Notes
