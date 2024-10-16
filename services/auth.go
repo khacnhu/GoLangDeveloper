@@ -36,7 +36,7 @@ func (a *AuthService) Login(email *string, password *string) (*internal.User, er
 		return nil, errors.New("no user found with email")
 	}
 
-	if utils.CheckPasswordHash(*password, user.Password) == false {
+	if !utils.CheckPasswordHash(*password, user.Password) { // check again old code commit
 		return nil, errors.New("password is not correct")
 	}
 
