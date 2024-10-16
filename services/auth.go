@@ -2,8 +2,8 @@ package services
 
 import (
 	"errors"
-	internal "go-tutorial/internals/models"
-	"go-tutorial/internals/utils"
+	internal "go-tutorial/models"
+	"go-tutorial/utils"
 
 	"gorm.io/gorm"
 )

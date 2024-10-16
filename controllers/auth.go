@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"go-tutorial/internals/utils"
 	"go-tutorial/services"
+	"go-tutorial/utils"
 
 	"github.com/gin-gonic/gin"
 )

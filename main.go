@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"go-tutorial/controllers"
-	internal "go-tutorial/internals/databases"
-	"go-tutorial/internals/utils"
+	internal "go-tutorial/databases"
 	"go-tutorial/services"
+	"go-tutorial/utils"
 	"log"
 	"os"
 

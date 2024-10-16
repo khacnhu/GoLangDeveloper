@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"fmt"
-	"go-tutorial/internals/utils"
+	"go-tutorial/utils"
 	"net/http"
 	"strings"
 

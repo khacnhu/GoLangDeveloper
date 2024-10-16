@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	internal "go-tutorial/internals/models"
+	internal "go-tutorial/models"
 	"log"
 	"net/http"
 	"strconv"
