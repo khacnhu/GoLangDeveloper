@@ -31,7 +31,7 @@ func InitDB() *gorm.DB {
 	fmt.Println("check dsn old = ", dsn)
 
 	dsnTest := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s", db_host, db_user, db_password, db_name, db_port, db_ssl_mode, db_timezone)
-	fmt.Println("check dsn new = ", dsnTest)
+	// fmt.Println("check dsn new = ", dsnTest)
 
 	db, err := gorm.Open(postgres.Open(dsnTest), &gorm.Config{})
 

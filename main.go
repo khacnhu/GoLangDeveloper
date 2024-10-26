@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go-tutorial/configs"
 	"go-tutorial/controllers"
 	internal "go-tutorial/databases"
 	"go-tutorial/services"
@@ -14,6 +15,10 @@ import (
 )
 
 func main() {
+	// Load environment configuration
+	configs.LoadConfig()
+	gin.SetMode(configs.AppConfig.Server.Mode)
+
 	router := gin.Default()
 	router.Use(utils.Logger())
 
