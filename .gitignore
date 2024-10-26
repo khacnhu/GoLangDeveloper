@@ -1,1 +1,15 @@
 // should add file env , configs in to git ingore file to hint important key
+
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+
+# Config files
+/config/*
+!config/config.prod.json
