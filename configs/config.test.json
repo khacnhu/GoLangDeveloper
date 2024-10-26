@@ -1,0 +1,13 @@
+{
+    "server": {
+      "port": ":8081",
+      "mode": "test"
+    },
+    "database": {
+      "host": "localhost",
+      "port": 5432,
+      "user": "test_user",
+      "password": "test_pass",
+      "dbname": "test_db"
+    }
+  }

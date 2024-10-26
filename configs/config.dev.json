@@ -1,0 +1,13 @@
+{
+    "server": {
+      "port": ":8080",
+      "mode": "debug"
+    },
+    "database": {
+      "host": "localhost",
+      "port": 5432,
+      "user": "dev_user",
+      "password": "dev_pass",
+      "dbname": "dev_db"
+    }
+  }
